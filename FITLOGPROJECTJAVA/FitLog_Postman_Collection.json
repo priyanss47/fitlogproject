@@ -1,0 +1,335 @@
+{
+  "info": {
+    "name": "FitLog API Collection",
+    "description": "Complete Postman collection for FitLog — Personal Workout & Calorie Tracker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "👤 Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/users", "host": ["{{base_url}}"], "path": ["api", "users"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Sharma\",\n  \"email\": \"priya@fitlog.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/users", "host": ["{{base_url}}"], "path": ["api", "users"] }
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/users/1", "host": ["{{base_url}}"], "path": ["api", "users", "1"] }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/users/1", "host": ["{{base_url}}"], "path": ["api", "users", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Updated\",\n  \"email\": \"priya.updated@fitlog.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{base_url}}/api/users/1", "host": ["{{base_url}}"], "path": ["api", "users", "1"] }
+          }
+        },
+        {
+          "name": "❌ Create User - Duplicate Email (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/users", "host": ["{{base_url}}"], "path": ["api", "users"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Duplicate User\",\n  \"email\": \"priya@fitlog.com\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏋️ Workouts",
+      "item": [
+        {
+          "name": "Log Workout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/workouts", "host": ["{{base_url}}"], "path": ["api", "workouts"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"Running\",\n  \"durationMins\": 30,\n  \"caloriesBurnt\": 300.0,\n  \"date\": \"2024-01-15\",\n  \"userId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Workouts",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/workouts", "host": ["{{base_url}}"], "path": ["api", "workouts"] }
+          }
+        },
+        {
+          "name": "Get Workout By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/workouts/1", "host": ["{{base_url}}"], "path": ["api", "workouts", "1"] }
+          }
+        },
+        {
+          "name": "Get Workouts By User & Date",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/workouts/user/1?date=2024-01-15",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workouts", "user", "1"],
+              "query": [{ "key": "date", "value": "2024-01-15" }]
+            }
+          }
+        },
+        {
+          "name": "Get Workouts By User & Week",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/workouts/user/1/week?startDate=2024-01-15&endDate=2024-01-21",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workouts", "user", "1", "week"],
+              "query": [
+                { "key": "startDate", "value": "2024-01-15" },
+                { "key": "endDate", "value": "2024-01-21" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Workout",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{base_url}}/api/workouts/1", "host": ["{{base_url}}"], "path": ["api", "workouts", "1"] }
+          }
+        },
+        {
+          "name": "❌ Log Workout - Negative Calories (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/workouts", "host": ["{{base_url}}"], "path": ["api", "workouts"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"Running\",\n  \"durationMins\": 30,\n  \"caloriesBurnt\": -100.0,\n  \"date\": \"2024-01-15\",\n  \"userId\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🍽️ Meals",
+      "item": [
+        {
+          "name": "Log Meal",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/meals", "host": ["{{base_url}}"], "path": ["api", "meals"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"foodItem\": \"Chicken Rice\",\n  \"quantity\": \"1 plate\",\n  \"calories\": 600.0,\n  \"date\": \"2024-01-15\",\n  \"userId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Meals",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/meals", "host": ["{{base_url}}"], "path": ["api", "meals"] }
+          }
+        },
+        {
+          "name": "Get Meal By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/meals/1", "host": ["{{base_url}}"], "path": ["api", "meals", "1"] }
+          }
+        },
+        {
+          "name": "Get Meals By User & Date",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/meals/user/1?date=2024-01-15",
+              "host": ["{{base_url}}"],
+              "path": ["api", "meals", "user", "1"],
+              "query": [{ "key": "date", "value": "2024-01-15" }]
+            }
+          }
+        },
+        {
+          "name": "Get Meals By User & Week",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/meals/user/1/week?startDate=2024-01-15&endDate=2024-01-21",
+              "host": ["{{base_url}}"],
+              "path": ["api", "meals", "user", "1", "week"],
+              "query": [
+                { "key": "startDate", "value": "2024-01-15" },
+                { "key": "endDate", "value": "2024-01-21" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Meal",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{base_url}}/api/meals/1", "host": ["{{base_url}}"], "path": ["api", "meals", "1"] }
+          }
+        },
+        {
+          "name": "❌ Log Meal - Negative Calories (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/meals", "host": ["{{base_url}}"], "path": ["api", "meals"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"foodItem\": \"Bad Meal\",\n  \"quantity\": \"1 plate\",\n  \"calories\": -50.0,\n  \"date\": \"2024-01-15\",\n  \"userId\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎯 Goals",
+      "item": [
+        {
+          "name": "Set Weekly Goal",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/goals", "host": ["{{base_url}}"], "path": ["api", "goals"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"weekStartDate\": \"2024-01-15\",\n  \"weeklyWorkoutCountGoal\": 5,\n  \"userId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Goals By User",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/goals/user/1", "host": ["{{base_url}}"], "path": ["api", "goals", "user", "1"] }
+          }
+        },
+        {
+          "name": "Get Goal By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/goals/1", "host": ["{{base_url}}"], "path": ["api", "goals", "1"] }
+          }
+        },
+        {
+          "name": "Delete Goal",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{base_url}}/api/goals/1", "host": ["{{base_url}}"], "path": ["api", "goals", "1"] }
+          }
+        },
+        {
+          "name": "❌ Set Goal - Duplicate Week (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/goals", "host": ["{{base_url}}"], "path": ["api", "goals"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"weekStartDate\": \"2024-01-15\",\n  \"weeklyWorkoutCountGoal\": 3,\n  \"userId\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Summary",
+      "item": [
+        {
+          "name": "Get Daily Summary",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/summary/daily/1?date=2024-01-15",
+              "host": ["{{base_url}}"],
+              "path": ["api", "summary", "daily", "1"],
+              "query": [{ "key": "date", "value": "2024-01-15" }]
+            }
+          }
+        },
+        {
+          "name": "Get Weekly Summary",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/summary/weekly/1?weekStartDate=2024-01-15",
+              "host": ["{{base_url}}"],
+              "path": ["api", "summary", "weekly", "1"],
+              "query": [{ "key": "weekStartDate", "value": "2024-01-15" }]
+            }
+          }
+        },
+        {
+          "name": "❌ Daily Summary - No Entries (Should Fail)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/summary/daily/1?date=2099-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["api", "summary", "daily", "1"],
+              "query": [{ "key": "date", "value": "2099-12-31" }]
+            }
+          }
+        },
+        {
+          "name": "❌ Weekly Summary - No Workouts (Should Fail)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/summary/weekly/1?weekStartDate=2099-12-25",
+              "host": ["{{base_url}}"],
+              "path": ["api", "summary", "weekly", "1"],
+              "query": [{ "key": "weekStartDate", "value": "2099-12-25" }]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
